@@ -1,3 +1,46 @@
+// ===== MODAL FUNCTIONS =====
+// Modal Functions
+function openModal(modalId, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+}
+
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+  }
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+      if (modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    });
+  }
+});
+
 // Configuración y variables globales
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
@@ -13,6 +56,7 @@ function initializeApp() {
     initNavbarScroll();
     initServiceButtons();
     initLazyLoading();
+    initModals();
 }
 
 // ===== MENÚ MÓVIL =====
@@ -25,7 +69,6 @@ function initMobileMenu() {
         mobileMenu.addEventListener('click', function() {
             mobileMenu.classList.toggle('active');
             navMenu.classList.toggle('active');
-            
             // Prevenir scroll del body cuando el menú está abierto
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
@@ -259,7 +302,7 @@ function showErrorMessage(errors) {
 
 // ===== BOTONES DE SERVICIOS =====
 function initServiceButtons() {
-    const serviceButtons = document.querySelectorAll('.service-btn');
+    const serviceButtons = document.querySelectorAll('.service-btn:not(.btn-info)');
     
     serviceButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -325,56 +368,10 @@ function initLazyLoading() {
 }
 
 // ===== UTILIDADES =====
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction() {
-        const context = this;
-        const args = arguments;
-        const later = function() {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
-}
+// Función debounce eliminada - no se estaba utilizando
 
 // ===== EFECTOS ADICIONALES =====
-document.addEventListener('DOMContentLoaded', function() {
-    // Agregar efectos de hover a las tarjetas
-    const cards = document.querySelectorAll('.service-card, .value-card, .testimonial-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-        });
-    });
-    
-    // Efecto de typing en el hero title (opcional)
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const text = heroTitle.textContent;
-        heroTitle.textContent = '';
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < text.length) {
-                heroTitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
-            }
-        }
-        
-        // Iniciar efecto después de un pequeño delay
-        setTimeout(typeWriter, 1000);
-    }
-});
+// Efectos adicionales movidos a initializeApp para evitar duplicación
 
 // ===== MANEJO DE ERRORES =====
 window.addEventListener('error', function(e) {
@@ -400,21 +397,8 @@ window.addEventListener('load', function() {
     }, 100);
 });
 
-// ===== ACCESIBILIDAD =====
-document.addEventListener('keydown', function(e) {
-    // Navegación con teclado
-    if (e.key === 'Escape') {
-        // Cerrar menú móvil si está abierto
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navMenu = document.querySelector('.nav-menu');
-        
-        if (mobileMenu && navMenu && navMenu.classList.contains('active')) {
-            mobileMenu.classList.remove('active');
-            navMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-});
+// ===== ACCESIBILIDAD ===== 
+// Funcionalidad de teclado movida al listener principal para evitar duplicación
 
 // ===== ANALYTICS Y TRACKING =====
 function trackEvent(eventName, eventData = {}) {
@@ -429,7 +413,7 @@ function trackEvent(eventName, eventData = {}) {
 
 // Trackear clicks en servicios
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('service-btn')) {
+    if (e.target.classList.contains('service-btn') && !e.target.classList.contains('btn-info')) {
         const serviceName = e.target.closest('.service-card').querySelector('h3').textContent;
         trackEvent('service_click', {
             service_name: serviceName,
@@ -444,107 +428,11 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// ===== ESTILOS DINÁMICOS PARA MENSAJES =====
-const messageStyles = `
-    .success-message, .error-message {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 10000;
-        max-width: 400px;
-        padding: 0;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        animation: slideInRight 0.3s ease-out;
-    }
-    
-    .success-message {
-        background-color: #10b981;
-        color: white;
-    }
-    
-    .error-message {
-        background-color: #ef4444;
-        color: white;
-    }
-    
-    .message-content {
-        padding: 16px 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    
-    .message-content i {
-        font-size: 1.2rem;
-        flex-shrink: 0;
-    }
-    
-    .message-content p {
-        margin: 0;
-        font-weight: 500;
-    }
-    
-    .scroll-to-top {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.2rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        transition: all 0.3s ease;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(20px);
-        z-index: 1000;
-    }
-    
-    .scroll-to-top.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-    
-    .scroll-to-top:hover {
-        background-color: var(--secondary-color);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    }
-    
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .success-message, .error-message {
-            right: 10px;
-            left: 10px;
-            max-width: none;
-        }
-        
-        .scroll-to-top {
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-        }
-    }
-`;
+// ===== ESTILOS DINÁMICOS =====
+// Estilos CSS movidos al archivo styles.css para mejor organización
 
-// Agregar estilos al documento
-const styleSheet = document.createElement('style');
-styleSheet.textContent = messageStyles;
-document.head.appendChild(styleSheet);
+// ===== MODAL FUNCTIONALITY =====
+function initModals() {
+    // Modal event listeners are handled by the global functions above
+    console.log('Modal functionality initialized');
+}
