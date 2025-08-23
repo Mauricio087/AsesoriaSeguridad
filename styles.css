@@ -472,6 +472,60 @@ body {
     color: var(--text-light);
 }
 
+/* Clients Section */
+.clients {
+    padding: var(--spacing-2xl) 0;
+    background-color: var(--light-color);
+}
+
+.clients h2 {
+    text-align: center;
+    font-size: var(--font-size-3xl);
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.clients-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.client-card {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 4px solid var(--accent-color);
+}
+
+.client-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-left-color: var(--primary-color);
+}
+
+.client-icon {
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+}
+
+.client-card h3 {
+    font-size: var(--font-size-lg);
+    color: var(--dark-color);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.client-card p {
+    color: var(--text-light);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
 /* Testimonials Section */
 .testimonials {
     padding: var(--spacing-2xl) 0;
