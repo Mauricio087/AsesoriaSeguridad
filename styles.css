@@ -1157,6 +1157,10 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .logo-text {
+        display: none;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
