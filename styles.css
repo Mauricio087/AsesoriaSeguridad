@@ -507,10 +507,24 @@ body {
     border-left-color: var(--primary-color);
 }
 
-.client-icon {
-    font-size: 2.2rem;
-    color: var(--primary-color);
+.client-logo {
     margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.client-logo img {
+    max-width: 120px;
+    max-height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.client-card:hover .client-logo img {
+    transform: scale(1.05);
 }
 
 .client-card h3 {
