@@ -335,7 +335,27 @@ body {
 /* Services Section */
 .services {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--light-color);
+    background-image: url('img/equipoasesoria.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+}
+
+.services .container {
+    position: relative;
+    z-index: 2;
 }
 
 .services h2 {
@@ -349,6 +369,21 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: var(--spacing-lg);
+}
+
+/* Contenedor centrado para las dos últimas cards */
+.services-grid-centered {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.services-grid-centered .service-card {
+    flex: 0 0 auto;
+    width: 350px;
+    max-width: 350px;
 }
 
 .service-card {
@@ -367,9 +402,23 @@ body {
 }
 
 .service-icon {
-    font-size: 3rem;
-    color: var(--primary-color);
     margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+}
+
+.service-icon img {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.service-icon img:hover {
+    transform: scale(1.05);
 }
 
 .service-card h3 {
@@ -498,7 +547,27 @@ body {
 /* Clients Section */
 .clients {
     padding: var(--spacing-2xl) 0;
-    background-color: var(--light-color);
+    background-image: url('img/alguno de nuestros clientes.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.clients::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+}
+
+.clients .container {
+    position: relative;
+    z-index: 2;
 }
 
 .clients h2 {
@@ -792,8 +861,19 @@ body {
 .footer-bottom {
     border-top: 1px solid #374151;
     padding-top: var(--spacing-lg);
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: #9ca3af;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer-bottom span {
+    font-size: 0.875rem;
+    opacity: 0.8;
 }
 
 /* ===== MODAL STYLES ===== */
@@ -1129,6 +1209,16 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .services-grid-centered {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .services-grid-centered .service-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
     .values-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
@@ -1165,6 +1255,12 @@ body {
     .details-toggle {
         width: 100%;
         justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
     }
 
     /* Modal responsive */
